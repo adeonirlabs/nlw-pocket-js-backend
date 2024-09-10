@@ -13,6 +13,7 @@
     "fastify": "4.28.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.8.3",
     "@tsconfig/node22": "22.0.0",
     "@types/node": "22.5.4",
     "tsx": "4.19.0",
