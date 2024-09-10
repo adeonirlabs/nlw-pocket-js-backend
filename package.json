@@ -9,6 +9,9 @@
   "keywords": [],
   "author": "Adeonir Kohl <adeonir@gmail.com> (https://adeonir.dev/)",
   "license": "ISC",
+  "dependencies": {
+    "fastify": "4.28.1"
+  },
   "devDependencies": {
     "@tsconfig/node22": "22.0.0",
     "@types/node": "22.5.4",
