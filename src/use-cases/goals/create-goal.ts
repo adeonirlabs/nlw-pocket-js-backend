@@ -1,5 +1,5 @@
 import { database } from 'src/database'
-import { goals } from 'src/database/schema'
+import { goalsSchema } from 'src/database/schema'
 
 export interface CreateGoalInput {
   title: string
@@ -8,7 +8,7 @@ export interface CreateGoalInput {
 
 export async function createGoal(input: CreateGoalInput) {
   const result = await database
-    .insert(goals)
+    .insert(goalsSchema)
     .values({
       title: input.title,
       desiredFrequency: input.desiredFrequency,

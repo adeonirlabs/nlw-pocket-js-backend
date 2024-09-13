@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
-export const goals = pgTable('goals', {
+export const goalsSchema = pgTable('goals', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),
@@ -12,12 +12,12 @@ export const goals = pgTable('goals', {
     .defaultNow(),
 })
 
-export const goalsCompleted = pgTable('goals_completed', {
+export const goalsCompletedSchema = pgTable('goals_completed', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createId()),
   goalId: text('goal_id')
-    .references(() => goals.id)
+    .references(() => goalsSchema.id)
     .notNull(),
   completedAt: timestamp('completed_at', { withTimezone: true })
     .notNull()
