@@ -15,7 +15,5 @@ export async function createGoal(input: CreateGoalInput) {
     })
     .returning()
 
-  const goal = result[0]
-
-  return { goal }
+  return { goal: result[0] }
 }
