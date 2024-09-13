@@ -1,12 +1,12 @@
 import { database } from 'src/database'
 import { goalsSchema } from 'src/database/schema'
 
-export interface CreateGoalInput {
+export interface CreateGoalRequest {
   title: string
   desiredFrequency: number
 }
 
-export async function createGoal(input: CreateGoalInput) {
+export async function createGoal(input: CreateGoalRequest) {
   const result = await database
     .insert(goalsSchema)
     .values({
