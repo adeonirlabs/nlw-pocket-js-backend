@@ -4,7 +4,7 @@
   "description": "Projeto desenvolvido durante a NWL PocketJS",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --env-file .env src/server.ts watch",
+    "dev": "tsx watch --env-file .env src/server.ts",
     "seed": "tsx --env-file .env src/database/seed.ts"
   },
   "keywords": [],
