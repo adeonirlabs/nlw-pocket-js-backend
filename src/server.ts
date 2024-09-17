@@ -27,8 +27,8 @@ app.register(getWeekSummaryRoute)
 
 app
   .listen({
-    port: 3333,
+    port: env.PORT,
   })
   .then(() => {
-    console.log('Server running on port http://localhost:3333')
+    console.log(`Server running on port ${env.BASE_URL}`)
   })
