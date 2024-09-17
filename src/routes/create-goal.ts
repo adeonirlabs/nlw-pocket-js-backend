@@ -1,9 +1,12 @@
 import type { FastifyInstance } from 'fastify'
-import type { CreateGoalRequest } from 'src/use-cases/goals/create-goal'
-import { createGoal } from 'src/use-cases/goals/create-goal'
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
+import type { CreateGoalRequest } from 'src/use-cases/create-goal'
+import { createGoal } from 'src/use-cases/create-goal'
 import { z } from 'zod'
 
-export async function createGoalRoute(app: FastifyInstance) {
+export const createGoalRoute: FastifyPluginAsyncZod = async (
+  app: FastifyInstance
+) => {
   app.post<{ Body: CreateGoalRequest }>(
     '/goals',
     {

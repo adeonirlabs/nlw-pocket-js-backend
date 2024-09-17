@@ -4,14 +4,18 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { goalsRoutes } from 'src/routes/goals'
+import { createGoalRoute } from './routes/create-goal'
+import { getWeekPendingGoalsRoute } from './routes/get-week-pending-goals'
+import { markGoalCompletedRoute } from './routes/mark-goal-completed'
 
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
 
-app.register(goalsRoutes)
+app.register(createGoalRoute)
+app.register(getWeekPendingGoalsRoute)
+app.register(markGoalCompletedRoute)
 
 app
   .listen({

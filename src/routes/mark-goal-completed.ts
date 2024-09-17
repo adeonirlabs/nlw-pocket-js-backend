@@ -1,9 +1,12 @@
 import type { FastifyInstance } from 'fastify'
-import type { MarkGoalCompletedRequest } from 'src/use-cases/goals/mark-goal-completed'
-import { markGoalCompleted } from 'src/use-cases/goals/mark-goal-completed'
+import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
+import type { MarkGoalCompletedRequest } from 'src/use-cases/mark-goal-completed'
+import { markGoalCompleted } from 'src/use-cases/mark-goal-completed'
 import { z } from 'zod'
 
-export async function markGoalCompletedRoute(app: FastifyInstance) {
+export const markGoalCompletedRoute: FastifyPluginAsyncZod = async (
+  app: FastifyInstance
+) => {
   app.post<{ Body: MarkGoalCompletedRequest }>(
     '/goal-completed',
     {
