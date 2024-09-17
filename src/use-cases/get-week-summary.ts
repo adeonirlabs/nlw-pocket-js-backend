@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import { and, count, eq, gte, lte, sql } from 'drizzle-orm'
+import { and, eq, gte, lte, sql } from 'drizzle-orm'
 import { database } from 'src/database'
-import { goalsCompletedSchema, goalsSchema } from '../database/schema'
+import { goalsCompletedTable, goalsTable } from '../database/schema'
 
 export async function getWeekSummary() {
   const firstDayOfWeek = dayjs().startOf('week').toDate()
@@ -10,31 +10,31 @@ export async function getWeekSummary() {
   const goalsCreatedUpToWeek = database.$with('goals_created_up_to_week').as(
     database
       .select({
-        id: goalsSchema.id,
-        title: goalsSchema.title,
-        desiredFrequency: goalsSchema.desiredFrequency,
-        createdAt: goalsSchema.createdAt,
+        id: goalsTable.id,
+        title: goalsTable.title,
+        desiredFrequency: goalsTable.desiredFrequency,
+        createdAt: goalsTable.createdAt,
       })
-      .from(goalsSchema)
-      .where(lte(goalsSchema.createdAt, lastDayOfWeek))
+      .from(goalsTable)
+      .where(lte(goalsTable.createdAt, lastDayOfWeek))
   )
 
   const goalsCompletedInWeek = database.$with('goals_completed_in_week').as(
     database
       .select({
-        id: goalsSchema.id,
-        title: goalsSchema.title,
-        completedAt: goalsCompletedSchema.completedAt,
+        id: goalsTable.id,
+        title: goalsTable.title,
+        completedAt: goalsCompletedTable.completedAt,
         completedDate: sql /*sql*/`
-          DATE(${goalsCompletedSchema.completedAt})
+          DATE(${goalsCompletedTable.completedAt})
         `.as('completed_date'),
       })
-      .from(goalsCompletedSchema)
-      .innerJoin(goalsSchema, eq(goalsSchema.id, goalsCompletedSchema.goalId))
+      .from(goalsCompletedTable)
+      .innerJoin(goalsTable, eq(goalsTable.id, goalsCompletedTable.goalId))
       .where(
         and(
-          gte(goalsCompletedSchema.completedAt, firstDayOfWeek),
-          lte(goalsCompletedSchema.completedAt, lastDayOfWeek)
+          gte(goalsCompletedTable.completedAt, firstDayOfWeek),
+          lte(goalsCompletedTable.completedAt, lastDayOfWeek)
         )
       )
   )

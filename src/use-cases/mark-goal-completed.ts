@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { and, count, eq, gte, lte, sql } from 'drizzle-orm'
 import { database } from 'src/database'
-import { goalsCompletedSchema, goalsSchema } from 'src/database/schema'
+import { goalsCompletedTable, goalsTable } from 'src/database/schema'
 
 export interface MarkGoalCompletedRequest {
   goalId: string
@@ -14,36 +14,36 @@ export async function markGoalCompleted(input: MarkGoalCompletedRequest) {
   const goalsCompletedCount = database.$with('goals_completed_count').as(
     database
       .select({
-        goalId: goalsCompletedSchema.goalId,
-        completedCount: count(goalsCompletedSchema.id).as('completed_count'),
+        goalId: goalsCompletedTable.goalId,
+        completedCount: count(goalsCompletedTable.id).as('completed_count'),
       })
-      .from(goalsCompletedSchema)
+      .from(goalsCompletedTable)
       .where(
         and(
-          gte(goalsCompletedSchema.completedAt, firstDayOfWeek),
-          lte(goalsCompletedSchema.completedAt, lastDayOfWeek),
-          eq(goalsCompletedSchema.goalId, input.goalId)
+          gte(goalsCompletedTable.completedAt, firstDayOfWeek),
+          lte(goalsCompletedTable.completedAt, lastDayOfWeek),
+          eq(goalsCompletedTable.goalId, input.goalId)
         )
       )
-      .groupBy(goalsCompletedSchema.goalId)
+      .groupBy(goalsCompletedTable.goalId)
   )
 
   const response = await database
     .with(goalsCompletedCount)
     .select({
-      desiredFrequency: goalsSchema.desiredFrequency,
+      desiredFrequency: goalsTable.desiredFrequency,
       completedCount: sql /*sql*/`
         COALESCE(${goalsCompletedCount.completedCount}, 0)
         `
         .mapWith(Number)
         .as('completed_count'),
     })
-    .from(goalsSchema)
+    .from(goalsTable)
     .leftJoin(
       goalsCompletedCount,
-      eq(goalsSchema.id, goalsCompletedCount.goalId)
+      eq(goalsTable.id, goalsCompletedCount.goalId)
     )
-    .where(eq(goalsSchema.id, input.goalId))
+    .where(eq(goalsTable.id, input.goalId))
 
   const { desiredFrequency, completedCount } = response[0]
 
@@ -52,7 +52,7 @@ export async function markGoalCompleted(input: MarkGoalCompletedRequest) {
   }
 
   const result = await database
-    .insert(goalsCompletedSchema)
+    .insert(goalsCompletedTable)
     .values({
       goalId: input.goalId,
     })
