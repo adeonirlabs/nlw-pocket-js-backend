@@ -8,6 +8,6 @@ export const getWeekPendingGoalsRoute: FastifyPluginAsyncZod = async (
   app.get('/pending-goals', async (_, reply) => {
     const { pendingGoals } = await getWeekPendingGoals()
 
-    return reply.status(200).send({ pendingGoals })
+    return reply.status(200).send(pendingGoals)
   })
 }
