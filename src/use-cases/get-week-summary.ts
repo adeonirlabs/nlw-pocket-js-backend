@@ -63,16 +63,25 @@ export async function getWeekSummary() {
     .with(goalsCreatedUpToWeek, goalsCompletedInWeek, goalsCompletedByWeekDay)
     .select({
       completedCount: sql /*sql*/`
-        (SELECT COUNT(*) FROM ${goalsCompletedInWeek})
+        COALESCE((SELECT COUNT(*) FROM ${goalsCompletedInWeek}), 0)
       `
         .mapWith(Number)
         .as('completed_count'),
       totalCount: sql /*sql*/`
-        (SELECT SUM(${goalsCreatedUpToWeek.desiredFrequency}) FROM ${goalsCreatedUpToWeek})
+        COALESCE((SELECT SUM(${goalsCreatedUpToWeek.desiredFrequency}) FROM ${goalsCreatedUpToWeek}), 0)
       `
         .mapWith(Number)
         .as('total_count'),
-      goalsPerDay: sql /*sql*/`
+      goalsPerDay: sql /*sql*/<
+        Record<
+          string,
+          Array<{
+            id: string
+            title: string
+            completedAt: string
+          }>
+        >
+      >`
           JSON_OBJECT_AGG(
             ${goalsCompletedByWeekDay.completedDate},
             ${goalsCompletedByWeekDay.completedGoals}
@@ -81,5 +90,5 @@ export async function getWeekSummary() {
     })
     .from(goalsCompletedByWeekDay)
 
-  return { summary: response }
+  return { summary: response[0] }
 }
