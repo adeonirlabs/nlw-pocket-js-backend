@@ -8,7 +8,7 @@ export const markGoalCompletedRoute: FastifyPluginAsyncZod = async (
   app: FastifyInstance
 ) => {
   app.post<{ Body: MarkGoalCompletedRequest }>(
-    '/goal-completed',
+    '/complete-goal',
     {
       schema: {
         body: z.object({
