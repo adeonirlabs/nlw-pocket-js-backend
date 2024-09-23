@@ -1,0 +1,96 @@
+{
+	"info": {
+		"_postman_id": "",
+		"name": "in.orbit - Pocket JS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": ""
+	},
+	"item": [
+		{
+			"name": "Get week summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/week-summary",
+					"host": [
+						"http://localhost:3333"
+					],
+					"path": [
+						"week-summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get week pending goals",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3333/pending-goals",
+					"host": [
+						"http://localhost:3333"
+					],
+					"path": [
+						"pending-goals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark goal completed",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"goalId\": \"d2e4au04srl6d3vl46yhboto\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/complete-goal",
+					"host": [
+						"http://localhost:3333"
+					],
+					"path": [
+						"complete-goal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create goal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Read a book\",\n    \"desiredFrequency\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3333/goals",
+					"host": [
+						"http://localhost:3333"
+					],
+					"path": [
+						"goals"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
