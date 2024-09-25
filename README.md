@@ -28,11 +28,17 @@ O in.orbit é uma aplicação para ajudar você a alcançar suas metas semanais.
 
 ### Instalação
 
+Clone o repositório e instale as dependências.
+
 ```bash
 git clone https://github.com/adeonirlabs/nlw-pocket-js-backend.git
 cd nlw-pocket-js-backend
 bun install
+```
 
+Suba os containers do banco de dados
+
+```bash
 docker compose up -d
 ```
 
@@ -51,7 +57,7 @@ bun run drizzle-kit migrate
 bun run seed
 ```
 
-Rode o projeto
+Suba o servidor de desenvolvimento
 
 ```bash
 bun run dev
